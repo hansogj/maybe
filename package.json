@@ -8,7 +8,7 @@
         "README.md",
         "dist/",
         "LICENSE"
-      ],
+    ],
     "scripts": {
         "prepublish": "tsc",
         "test": "jest ",
@@ -17,7 +17,15 @@
         "jest:watch": "npm run jest -- --watchAll"
     },
     "keywords": [],
-    "author": "",
+    "contributors": [
+        {
+            "name": "Hans Ole Gjerdrum",
+            "email": "hansogj@gmail.com"
+        }
+    ],
+    "author": {
+        "name": "Øyvind Kjeldstad Grimnes (Oyvindkg)"
+    },
     "license": "ISC",
     "dependencies": {
         "typescript": "^4.1.3"
