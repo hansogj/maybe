@@ -1,0 +1,31 @@
+{
+    "name": "maybe-for-sure",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "README.md",
+        "dist/",
+        "LICENSE"
+      ],
+    "scripts": {
+        "prepublish": "tsc",
+        "test": "jest ",
+        "jest": "npx jest --runInBand --detectOpenHandles --colors --reporters=default",
+        "jest:clear": "npm run jest -- --clearCache && npm run jest",
+        "jest:watch": "npm run jest -- --watchAll"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "typescript": "^4.1.3"
+    },
+    "devDependencies": {
+        "jest": "^26.4.2",
+        "jest-junit": "^11.1.0",
+        "prettier": "^2.1.1",
+        "ts-jest": "^26.5.0"
+    }
+}
