@@ -1,6 +1,6 @@
 {
     "name": "maybe-for-sure",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -16,11 +16,19 @@
         "jest:clear": "npm run jest -- --clearCache && npm run jest",
         "jest:watch": "npm run jest -- --watchAll"
     },
-    "keywords": ["maybe" ,"safe", "secure code", "defined", "not null", "monad", "typescript"],
+    "keywords": [
+        "maybe",
+        "safe",
+        "secure code",
+        "defined",
+        "not null",
+        "monad",
+        "typescript"
+    ],
     "repository": {
-        "type": "git",        
+        "type": "git",
         "url": "https://github.com/hansogj/maybe-for-sure.git"
-      },
+    },
     "contributors": [
         {
             "name": "Hans Ole Gjerdrum",
