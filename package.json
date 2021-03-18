@@ -6,7 +6,8 @@
     "types": "dist/index.d.ts",
     "files": [
         "README.md",
-        "dist/",
+        "dist/src",
+        "dist/index*",
         "LICENSE"
     ],
     "scripts": {
