@@ -15,12 +15,27 @@ _Maybe_ also provides some useful filters and chaining into object structures ie
             subComplex: { type: 'noType', other: 21, },
         },
     };
-     maybe(myObject).valueOr((undefined as unknown) as typeof myObject); // => myObject
-     maybe(undefined as any).valueOr(myObject); // => myObject
-     maybe(myObject).mapTo('prop').valueOr(0); // => 1
-     maybe(myObject).mapTo('complex').map((it) => ((it.sub = 'DEF'), it)).mapTo('sub').valueOr('null'); // => 'DEF'
-     maybe(myObject).mapTo('complex').mapTo('list').map((it) => it.reduce((cur: number, next: number) => (cur += next), 0)).valueOr(0); // => 6
-     maybe(myObject).mapTo('complex').mapTo('subComplex').mapTo('other').nothingIf((it) => it === 21).valueOr(0); // => 0
+     
+maybe(myObject).valueOr((undefined as unknown) as typeof myObject); // => myObject
+maybe(undefined as any).valueOr(myObject); // => myObject
+maybe(myObject).mapTo('prop').valueOr(0); // => 1
+maybe(myObject)
+    .mapTo('complex')
+    .map((it) => ((it.sub = 'DEF'), it))
+    .mapTo('sub')
+    .valueOr('null'); // => 'DEF'
+maybe(myObject)
+    .mapTo('complex')
+    .mapTo('list')
+    .map((it) => it.reduce((cur: number, next: number) => (cur += next), 0))
+    .valueOr(0); // => 6
+maybe(myObject)
+    .mapTo('complex')
+    .mapTo('subComplex')
+    .mapTo('other')
+    .nothingIf((it) => it === 21)
+    .valueOr(0); // => 0
+
 ```
 
 
