@@ -86,6 +86,9 @@ export class Maybe<Value> {
 
   mapTo = <Key extends keyof Value>(key: Key): Maybe<Value[Key]> => this.map(value => value[key]);
 
+  stringify = (): Maybe<string> => this.map(value => JSON.stringify(value).replace(/\"/g, ""));
+
+
   // Static members
 
   static just<Value>(value: Value): Maybe<Value> {

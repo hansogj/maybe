@@ -47,7 +47,8 @@ describe('Maybe', () => {
 
   describe('valueOrExecute', () => {
     it('returns content if something', () => expect(maybe(1).valueOrExecute(() => 2)).toEqual(1));
-    it('returns value from callback if nothing', () => expect(maybe(undefined).valueOrExecute(() => 2 as any)).toEqual(2));
+    it('returns value from callback if nothing', () =>
+      expect(maybe(undefined).valueOrExecute(() => 2 as any)).toEqual(2));
   });
 
   describe('valueOrThrow', () => {
@@ -69,7 +70,7 @@ describe('Maybe', () => {
     it('returns the mapped value if something', () =>
       expect(
         maybe(0)
-          .map(i => i + 1)
+          .map((i) => i + 1)
           .valueOrThrow()
       ).toEqual(1));
 
@@ -90,30 +91,34 @@ describe('Maybe', () => {
 
   describe('mapTo', () => {
     it('returns property if value and property is something', () =>
-      expect(
-        maybe({ prop: 2 })
-          .mapTo('prop')
-          .valueOrThrow()
-      ).toEqual(2));
+      expect(maybe({ prop: 2 }).mapTo('prop').valueOrThrow()).toEqual(2));
     it('returns nothing if value is nothing', () =>
-      expect(
-        maybe<{ prop: number }>(null)
-          .mapTo('prop')
-          .isNothing()
-      ).toEqual(true));
+      expect(maybe<{ prop: number }>(null).mapTo('prop').isNothing()).toEqual(true));
     it('returns nothing if property is nothing', () =>
-      expect(
-        maybe({ prop: null })
-          .mapTo('prop')
-          .isNothing()
-      ).toEqual(true));
+      expect(maybe({ prop: null }).mapTo('prop').isNothing()).toEqual(true));
+  });
+
+  describe('stringify', () => {
+    it.each([
+      ['', ''],
+      [1, '1'],
+      [true, 'true'],
+      [[], '[]'],
+      [{}, '{}'],
+      [{ a: [] }, '{a:[]}'],
+      [{ a: { b: { c: [{}, 'a', 1, []] } } }, '{a:{b:{c:[{},a,1,[]]}}}'],
+    ])("should stringify value %j to '%s'", (value: any, stringifiedValue: string) => {
+      expect(maybe(value).stringify().valueOrThrow()).toEqual(stringifiedValue);
+    });
+
+    it('should be nothing of value is undefined', () => expect(maybe(undefined).stringify().isNothing()).toBeTruthy());
   });
 
   describe('flatMap', () => {
     it('returns the mapped value if something', () =>
       expect(
         maybe(0)
-          .flatMap(i => maybe(i + 1))
+          .flatMap((i) => maybe(i + 1))
           .valueOrThrow()
       ).toEqual(1));
 
@@ -187,12 +192,7 @@ describe('Maybe', () => {
   });
 
   describe('or', () => {
-    it('returns original if something', () =>
-      expect(
-        maybe(1)
-          .or(maybe(2))
-          .valueOrThrow()
-      ).toEqual(1));
+    it('returns original if something', () => expect(maybe(1).or(maybe(2)).valueOrThrow()).toEqual(1));
 
     it('returns other if nothing', () =>
       expect(
@@ -203,12 +203,7 @@ describe('Maybe', () => {
   });
 
   describe('orJust', () => {
-    it('returns original if something', () =>
-      expect(
-        maybe(1)
-          .orJust(2)
-          .valueOrThrow()
-      ).toEqual(1));
+    it('returns original if something', () => expect(maybe(1).orJust(2).valueOrThrow()).toEqual(1));
 
     it('returns other if nothing', () =>
       expect(
@@ -220,31 +215,13 @@ describe('Maybe', () => {
 
   describe('zip', () => {
     it('returns merged values if both values are something', () =>
-      expect(
-        maybe(1)
-          .zip(maybe(2))
-          .valueOrThrow()
-      ).toEqual([1, 2]));
+      expect(maybe(1).zip(maybe(2)).valueOrThrow()).toEqual([1, 2]));
 
     it('returns nothing if both values are nothing', () =>
-      expect(
-        maybe(null)
-          .zip(maybe(null))
-          .isNothing()
-      ).toEqual(true));
+      expect(maybe(null).zip(maybe(null)).isNothing()).toEqual(true));
 
-    it('returns nothing if first value is nothing', () =>
-      expect(
-        maybe(null)
-          .zip(maybe(2))
-          .isNothing()
-      ).toEqual(true));
+    it('returns nothing if first value is nothing', () => expect(maybe(null).zip(maybe(2)).isNothing()).toEqual(true));
 
-    it('returns nothing if second value is nothing', () =>
-      expect(
-        maybe(1)
-          .zip(maybe(null))
-          .isNothing()
-      ).toEqual(true));
+    it('returns nothing if second value is nothing', () => expect(maybe(1).zip(maybe(null)).isNothing()).toEqual(true));
   });
 });
