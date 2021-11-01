@@ -40,10 +40,9 @@
         "name": "Øyvind Kjeldstad Grimnes (Oyvindkg)"
     },
     "license": "ISC",
-    "dependencies": {
-        "@types/jest": "^26.0.23"
-    },
+    "dependencies": {},
     "devDependencies": {
+        "@types/jest": "^26.0.23",
         "jest": "^26.6.3",
         "jest-junit": "^11.1.0",
         "prettier": "^2.1.1",
