@@ -22,11 +22,9 @@ export class Maybe<Value> {
     Maybe.isSomething(this.wrappedValue) ? this.wrappedValue : closure();
 
   // Existence checking
-  isSomething = () => {
-    return !this.isNothing();
-  };
+  isSomething = (): boolean => !this.isNothing();
 
-  isNothing = () =>
+  isNothing = (): boolean =>
     this.wrappedValue === undefined || this.wrappedValue === null;
 
   // Mapping
