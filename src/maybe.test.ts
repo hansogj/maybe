@@ -93,10 +93,32 @@ describe('Maybe', () => {
     it('returns property if value and property is something', () =>
       expect(maybe({ prop: 2 }).mapTo('prop').valueOrThrow()).toEqual(2));
     it('returns nothing if value is nothing', () =>
-      expect(maybe<{ prop: number }>(null).mapTo('prop').isNothing()).toEqual(true));
+      expect(maybe<{ prop: number }>(null as any).mapTo('prop').isNothing()).toEqual(true));
     it('returns nothing if property is nothing', () =>
       expect(maybe({ prop: null }).mapTo('prop').isNothing()).toEqual(true));
   });
+
+  describe('ifNothing', () => {
+    let spy: jest.SpyInstance;
+    beforeEach(() => (spy = jest.fn().mockReturnValue(100)));
+
+    it('should not evoke callback', () => {
+        expect(
+            maybe(1)
+                .ifNothing(spy as any)
+                .valueOr(2)
+        ).toEqual(1);
+        expect(spy).not.toHaveBeenCalled();
+    });
+    it('should evoke callback', () => {
+        expect(
+            maybe(undefined)
+                .ifNothing(spy as any)
+                .valueOr(1)
+        ).toEqual(1);
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+});
 
   describe('stringify', () => {
     it.each([
