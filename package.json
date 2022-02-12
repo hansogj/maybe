@@ -40,18 +40,18 @@
     "license": "ISC",
     "dependencies": {},
     "devDependencies": {
-        "@babel/core": "^7.16.12",
+        "@babel/core": "^7.17.2",
         "@babel/preset-env": "^7.16.11",
         "@babel/preset-typescript": "^7.16.7",
         "@types/jest": "^27.4.0",
-        "@webpack-cli/generators": "^1.1.0",
+        "@webpack-cli/generators": "^2.4.2",
         "babel-loader": "^8.2.3",
-        "jest": "^27.4.7",
+        "jest": "^27.5.1",
         "prettier": "^2.5.1",
         "ts-loader": "^9.2.6",
-        "ts-node": "^10.4.0",
+        "ts-node": "^10.5.0",
         "typescript": "^4.5.5",
-        "webpack": "^5.67.0",
+        "webpack": "^5.68.0",
         "webpack-cli": "^4.9.2"
     }
 }
