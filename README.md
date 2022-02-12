@@ -40,4 +40,4 @@ maybe(myObject)
 
 
 
-Look into [test](https://github.com/hansogj/maybe-for-sure/blob/main/src/maybe.test.ts) to see  more examples and filters.
+Look into [test](src/maybe.test.ts) to see  more examples and filters.

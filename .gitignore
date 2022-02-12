@@ -4,3 +4,4 @@ junit-TEST.xml
 package-lock.json
 *.tgz
 *.vscode
+coverage
