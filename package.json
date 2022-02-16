@@ -1,6 +1,6 @@
 {
     "name": "maybe-for-sure",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "description": "",
     "main": "dist/maybe.js",
     "types": "dist/maybe.d.ts",
