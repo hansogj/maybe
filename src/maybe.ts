@@ -18,7 +18,7 @@ export class Maybe<Value> {
       throw error;
     });
 
-  valueOrExecute = (closure: () => Value): Value =>
+    valueOrExecute = <T>(closure: () => T | Value): T | Value =>
     Maybe.isSomething(this.wrappedValue) ? this.wrappedValue : closure();
 
   // Existence checking
