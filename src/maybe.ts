@@ -12,20 +12,19 @@ export class Maybe<Value> {
     Maybe.isSomething(this.wrappedValue) ? this.wrappedValue : defaultValue;
 
   valueOrThrow = (
-    error: Error = new TypeError("Wrapped value is undefined or null"),
+    error: Error = new TypeError('Wrapped value is undefined or null'),
   ): Value | never =>
     this.valueOrExecute(() => {
       throw error;
     });
 
-    valueOrExecute = <T>(closure: () => T | Value): T | Value =>
+  valueOrExecute = <T>(closure: () => T | Value): T | Value =>
     Maybe.isSomething(this.wrappedValue) ? this.wrappedValue : closure();
 
   // Existence checking
   isSomething = (): boolean => !this.isNothing();
 
-  isNothing = (): boolean =>
-    this.wrappedValue === undefined || this.wrappedValue === null;
+  isNothing = (): boolean => this.wrappedValue === undefined || this.wrappedValue === null;
 
   // Mapping
   map = <Output>(mapper: (value: Value) => Optional<Output>): Maybe<Output> =>
@@ -57,21 +56,24 @@ export class Maybe<Value> {
   nothingIf = (filter: (_: Value) => boolean): Maybe<Value> =>
     this.nothingUnless((it) => !filter(it));
 
+  ifTrue = () => this.nothingUnless((value: Value) => Boolean(value));
+
+  ifFalse = () => this.nothingUnless((value: Value) => !Boolean(value));
+
   // Utilities
   or = (other: Maybe<Value>): Maybe<Value> => (this.isNothing() ? other : this);
-  orJust = (other: Value): Maybe<Value> =>
-    this.isNothing() ? Maybe.just(other) : this;
+
+  orJust = (other: Value): Maybe<Value> => (this.isNothing() ? Maybe.just(other) : this);
+
   zip<OtherValue>(other: Maybe<OtherValue>): Maybe<[Value, OtherValue]> {
     return this.map(
-      (it) =>
-        other.map((t: OtherValue): [Value, OtherValue] => [it, t]).wrappedValue,
+      (it) => other.map((t: OtherValue): [Value, OtherValue] => [it, t]).wrappedValue,
     );
   }
 
-  mapTo = <Key extends keyof Value>(key: Key): Maybe<Value[Key]> =>
-    this.map((value) => value[key]);
-  stringify = (): Maybe<string> =>
-    this.map((value) => JSON.stringify(value).replace(/\"/g, ""));
+  mapTo = <Key extends keyof Value>(key: Key): Maybe<Value[Key]> => this.map((value) => value[key]);
+
+  stringify = (): Maybe<string> => this.map((value) => JSON.stringify(value).replace(/\"/g, ''));
 
   // Static members
   static just<Value>(value: Value): Maybe<Value> {

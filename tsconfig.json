@@ -1,23 +1,15 @@
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        "sourceMap": true,
-        "declaration": true,
-        "outDir": "dist",
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "module": "ESNext",
-        "target": "ESNext",
-        "lib": [
-            "dom",
-            "DOM.Iterable",
-            "es6",
-            "es5",
-            "es2019"
-        ]
-    },
-    "files": [
-        "src/maybe.ts"
-    ]
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "declaration": true,
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "lib": ["dom", "DOM.Iterable", "es6", "es5", "es2019"]
+  },
+  "files": ["src/maybe.ts"]
 }

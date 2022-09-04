@@ -1,6 +1,6 @@
-# maybe-for-sure
+# maybe
 
-A lightweight stream-like maybe/or else monad for typescript. `maybe(val).valueOr(other)` grant you no unexpected undefined and hence allows you to write you TS-code in a more fluid way, skipping some of those if-else nestings. 
+A lightweight stream-like maybe/or else monad for typescript. `maybe(val).valueOr(other)` grant you no unexpected undefined and hence allows you to write you TS-code in a more fluid way, skipping some of those if-else nestings.
 
 _Maybe_ also provides some useful filters and chaining into object structures ie
 
@@ -15,7 +15,7 @@ _Maybe_ also provides some useful filters and chaining into object structures ie
             subComplex: { type: 'noType', other: 21, },
         },
     };
-     
+
 maybe(myObject).valueOr((undefined as unknown) as typeof myObject); // => myObject
 maybe(undefined as any).valueOr(myObject); // => myObject
 maybe(myObject).mapTo('prop').valueOr(0); // => 1
@@ -38,6 +38,4 @@ maybe(myObject)
 
 ```
 
-
-
-Look into [test](src/maybe.test.ts) to see  more examples and filters.
+Look into [test](src/maybe.test.ts) to see more examples and filters.

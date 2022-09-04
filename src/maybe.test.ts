@@ -71,21 +71,21 @@ describe('Maybe', () => {
       expect(
         maybe(0)
           .map((i) => i + 1)
-          .valueOrThrow()
+          .valueOrThrow(),
       ).toEqual(1));
 
     it('returns nothing if nothing', () =>
       expect(
         maybe(null)
           .map((i: any) => i + 1)
-          .isNothing()
+          .isNothing(),
       ).toBe(true));
 
     it('returns nothing if mapped value is nothing', () =>
       expect(
         maybe(1)
           .map(() => null)
-          .isNothing()
+          .isNothing(),
       ).toBe(true));
   });
 
@@ -93,7 +93,11 @@ describe('Maybe', () => {
     it('returns property if value and property is something', () =>
       expect(maybe({ prop: 2 }).mapTo('prop').valueOrThrow()).toEqual(2));
     it('returns nothing if value is nothing', () =>
-      expect(maybe<{ prop: number }>(null as any).mapTo('prop').isNothing()).toEqual(true));
+      expect(
+        maybe<{ prop: number }>(null as any)
+          .mapTo('prop')
+          .isNothing(),
+      ).toEqual(true));
     it('returns nothing if property is nothing', () =>
       expect(maybe({ prop: null }).mapTo('prop').isNothing()).toEqual(true));
   });
@@ -103,22 +107,22 @@ describe('Maybe', () => {
     beforeEach(() => (spy = jest.fn().mockReturnValue(100)));
 
     it('should not evoke callback', () => {
-        expect(
-            maybe(1)
-                .ifNothing(spy as any)
-                .valueOr(2)
-        ).toEqual(1);
-        expect(spy).not.toHaveBeenCalled();
+      expect(
+        maybe(1)
+          .ifNothing(spy as any)
+          .valueOr(2),
+      ).toEqual(1);
+      expect(spy).not.toHaveBeenCalled();
     });
     it('should evoke callback', () => {
-        expect(
-            maybe(undefined)
-                .ifNothing(spy as any)
-                .valueOr(1)
-        ).toEqual(1);
-        expect(spy).toHaveBeenCalledTimes(1);
+      expect(
+        maybe(undefined)
+          .ifNothing(spy as any)
+          .valueOr(1),
+      ).toEqual(1);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
-});
+  });
 
   describe('stringify', () => {
     it.each([
@@ -133,7 +137,8 @@ describe('Maybe', () => {
       expect(maybe(value).stringify().valueOrThrow()).toEqual(stringifiedValue);
     });
 
-    it('should be nothing of value is undefined', () => expect(maybe(undefined).stringify().isNothing()).toBeTruthy());
+    it('should be nothing of value is undefined', () =>
+      expect(maybe(undefined).stringify().isNothing()).toBeTruthy());
   });
 
   describe('flatMap', () => {
@@ -141,21 +146,21 @@ describe('Maybe', () => {
       expect(
         maybe(0)
           .flatMap((i) => maybe(i + 1))
-          .valueOrThrow()
+          .valueOrThrow(),
       ).toEqual(1));
 
     it('returns nothing if nothing', () =>
       expect(
         maybe(null)
           .flatMap((i: any) => maybe(i + 1))
-          .isNothing()
+          .isNothing(),
       ).toBe(true));
 
     it('returns nothing if mapped value is nothing', () =>
       expect(
         maybe(1)
           .flatMap(() => maybe(null))
-          .isNothing()
+          .isNothing(),
       ).toBe(true));
   });
 
@@ -186,14 +191,14 @@ describe('Maybe', () => {
       expect(
         maybe(1)
           .nothingUnless(() => true)
-          .isNothing()
+          .isNothing(),
       ).toBe(false));
 
     it('returns nothing if false', () =>
       expect(
         maybe(1)
           .nothingUnless(() => false)
-          .isNothing()
+          .isNothing(),
       ).toBe(true));
   });
 
@@ -202,25 +207,54 @@ describe('Maybe', () => {
       expect(
         maybe(1)
           .nothingIf(() => true)
-          .isNothing()
+          .isNothing(),
       ).toBe(true));
 
     it('returns something if false', () =>
       expect(
         maybe(1)
           .nothingIf(() => false)
-          .isNothing()
+          .isNothing(),
       ).toBe(false));
   });
 
+  describe('ifTrue', () => {
+    it.each([
+      [true, true],
+      [1, true],
+      [{}, true],
+      [[], true],
+      [false, false],
+      [0, false],
+      ['', false],
+    ])("of value %j should be '%s'", (value: any, expected: boolean) => {
+      expect(maybe(value).ifTrue().isSomething()).toBe(expected);
+    });
+  });
+
+  describe('ifFalse', () => {
+    it.each([
+      [true, false],
+      [1, false],
+      [{}, false],
+      [[], false],
+      [false, true],
+      [0, true],
+      ['', true],
+    ])("of value %j should be '%s'", (value: any, expected: boolean) => {
+      expect(maybe(value).ifFalse().isSomething()).toBe(expected);
+    });
+  });
+
   describe('or', () => {
-    it('returns original if something', () => expect(maybe(1).or(maybe(2)).valueOrThrow()).toEqual(1));
+    it('returns original if something', () =>
+      expect(maybe(1).or(maybe(2)).valueOrThrow()).toEqual(1));
 
     it('returns other if nothing', () =>
       expect(
         maybe(null)
           .or(maybe(2) as any)
-          .valueOrThrow()
+          .valueOrThrow(),
       ).toEqual(2));
   });
 
@@ -231,7 +265,7 @@ describe('Maybe', () => {
       expect(
         maybe(null)
           .orJust(2 as any)
-          .valueOrThrow()
+          .valueOrThrow(),
       ).toEqual(2));
   });
 
@@ -242,8 +276,10 @@ describe('Maybe', () => {
     it('returns nothing if both values are nothing', () =>
       expect(maybe(null).zip(maybe(null)).isNothing()).toEqual(true));
 
-    it('returns nothing if first value is nothing', () => expect(maybe(null).zip(maybe(2)).isNothing()).toEqual(true));
+    it('returns nothing if first value is nothing', () =>
+      expect(maybe(null).zip(maybe(2)).isNothing()).toEqual(true));
 
-    it('returns nothing if second value is nothing', () => expect(maybe(1).zip(maybe(null)).isNothing()).toEqual(true));
+    it('returns nothing if second value is nothing', () =>
+      expect(maybe(1).zip(maybe(null)).isNothing()).toEqual(true));
   });
 });
