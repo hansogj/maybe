@@ -1,7 +1,6 @@
 dist
 node_modules
 junit-TEST.xml
-package-lock.json
 *.tgz
 *.vscode
 coverage
