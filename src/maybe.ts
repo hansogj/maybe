@@ -73,6 +73,20 @@ export class Maybe<Value> {
 
   mapTo = <Key extends keyof Value>(key: Key): Maybe<Value[Key]> => this.map((value) => value[key]);
 
+  pick = <Key extends keyof Value>(...keys: Key[]): Maybe<Record<Key, Value[Key]>> =>
+    new Maybe(
+      keys.reduce(
+        (curr, key) =>
+          this.mapTo(key)
+            .map((it) => ({
+              ...curr,
+              [key]: it,
+            }))
+            .valueOr(curr),
+        {} as Record<Key, Value[Key]>,
+      ),
+    );
+
   stringify = (): Maybe<string> => this.map((value) => JSON.stringify(value).replace(/\"/g, ''));
 
   // Static members

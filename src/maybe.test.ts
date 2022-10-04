@@ -102,6 +102,22 @@ describe('Maybe', () => {
       expect(maybe({ prop: null }).mapTo('prop').isNothing()).toEqual(true));
   });
 
+  describe('pick', () => {
+    it('returns property if value and property is something', () =>
+      expect(maybe({ prop: 2 }).pick('prop').valueOrThrow()).toEqual({ prop: 2 }));
+
+    it('returns property if empty if value is nothing', () =>
+      expect(maybe({ prop: undefined }).pick('prop').valueOrThrow()).toEqual({}));
+
+    it('returns every properties present', () =>
+      expect(
+        maybe({ prop1: 1, prop2: 2, prop3: null }).pick('prop1', 'prop2', 'prop3').valueOrThrow(),
+      ).toEqual({
+        prop1: 1,
+        prop2: 2,
+      }));
+  });
+
   describe('ifNothing', () => {
     let spy: jest.SpyInstance;
     beforeEach(() => (spy = jest.fn().mockReturnValue(100)));
