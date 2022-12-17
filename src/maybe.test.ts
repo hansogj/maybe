@@ -89,6 +89,21 @@ describe('Maybe', () => {
       ).toBe(true));
   });
 
+  describe('tap', () => {
+    let spy: jest.Mock;
+    let result: any;
+    const value = 'My Value';
+    beforeEach(() => {
+      spy = jest.fn();
+      result = maybe(value).tap(spy).valueOr('Other');
+    });
+    it('has called callback', () => expect(spy).toHaveBeenCalledTimes(1));
+
+    it('has called callback with current value', () => expect(spy).toHaveBeenCalledWith(value));
+
+    it('has left value unchanged', () => expect(result).toEqual(value));
+  });
+
   describe('mapTo', () => {
     it('returns property if value and property is something', () =>
       expect(maybe({ prop: 2 }).mapTo('prop').valueOrThrow()).toEqual(2));

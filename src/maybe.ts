@@ -35,6 +35,12 @@ export class Maybe<Value> {
   flatMap = <Output>(mapper: (value: Value) => Maybe<Output>): Maybe<Output> =>
     this.map(mapper).map((it) => it.wrappedValue);
 
+  // runs callback without changing value
+  tap = (callback: (val: Value) => any) => {
+    callback(this.wrappedValue);
+    return this;
+  };
+
   // Conditional callbacks
   ifNothing = (callback: () => void): Maybe<Value> => {
     if (this.isNothing()) {
