@@ -1,6 +1,6 @@
 {
     "name": "@hansogj/maybe",
-    "version": "2.2.1",
+    "version": "2.2.2",
     "description": "",
     "main": "dist/maybe.js",
     "types": "dist/maybe.d.ts",
@@ -69,5 +69,11 @@
         "typescript": "5.2.2",
         "webpack": "5.88.2",
         "webpack-cli": "5.1.4"
+    },
+    "engines": {
+        "node": "20.5.1"
+    },
+    "volta": {
+        "node": "20.5.1"
     }
 }

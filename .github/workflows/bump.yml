@@ -1,0 +1,31 @@
+name: bump version
+
+on:
+  pull_request:
+    branches: ['main']
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      version:
+        type: choice
+        description: Bump into new version
+        default: 'patch'
+        options:
+          - major
+          - minor
+          - patch
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+  common-bump:
+    needs: [build]
+    uses: hansogj/package-test-utils/.github/workflows/shared-bump.yml@main
+    with:
+      version: ${{ github.event.inputs.version }}
+    secrets:
+      deployKey: ${{ secrets.DEPLOY_KEY }}
