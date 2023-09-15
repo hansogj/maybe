@@ -66,5 +66,11 @@
         "typescript": "5.1.6",
         "webpack": "5.88.2",
         "webpack-cli": "5.1.4"
+    },
+    "engines": {
+        "node": "20.5.1"
+    },
+    "volta": {
+        "node": "20.5.1"
     }
 }

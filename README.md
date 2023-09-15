@@ -1,3 +1,5 @@
+[![example workflow](https://github.com/hansogj/maybe/actions/workflows/build.yml/badge.svg)](https://github.com/hansogj/maybe/actions/workflows/build.yml/badge.svg)
+
 # maybe
 
 A lightweight stream-like maybe/orElse lib for optional values. `maybe(val).valueOr(other)` grant you no unexpected undefined and hence allows you to write you TS-code in a more fluid way, skipping some of those if-else nestings.
