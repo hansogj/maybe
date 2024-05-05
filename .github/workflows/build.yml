@@ -29,3 +29,5 @@ jobs:
         run: | 
           pnpm install  
           pnpm run prepack      
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
