@@ -28,4 +28,4 @@ jobs:
       - name: Install dependencies
         run: | 
           pnpm install  
-          pnpm run precommit      
+          pnpm run prepack      
