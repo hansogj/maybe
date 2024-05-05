@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: | 
-          pnpm install  
+          pnpm i --frozen-lockfile
           pnpm run prepack      
         env:
             NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
