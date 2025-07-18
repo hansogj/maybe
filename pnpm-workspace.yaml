@@ -1,3 +1,5 @@
 packages:
-  - "src/**"
-  
+  - src/**
+
+ignoredBuiltDependencies:
+  - unrs-resolver
