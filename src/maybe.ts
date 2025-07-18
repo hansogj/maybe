@@ -36,7 +36,7 @@ export class Maybe<Value> {
     this.map(mapper).map((it) => it.wrappedValue);
 
   // runs callback without changing value
-  tap = (callback: (val: Value) => any) => {
+  tap = (callback: (val: Value) => unknown) => {
     callback(this.wrappedValue);
     return this;
   };
