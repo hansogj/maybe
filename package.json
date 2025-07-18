@@ -10,15 +10,16 @@
     "LICENSE"
   ],
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "prebuild": "rm -rf dist",
     "build": "webpack --mode=production --node-env=production",
-    "test": "jest",
+    "depcheck": "npx depcheck --ignores=\"*airbnb*,ts-node,ts-loader,jest-environment-jsdom,webpack-cli\"",
     "lint": "npx eslint src --ext .js,.ts",
-    "prepack": "pnpm run lint && pnpm run test && pnpm run build",
-    "update": "npx npm-check-updates -i -t minor && pnpm run post:update",
+    "post:update": "rm -rfv node_modules && pnpm prune && pnpm i",
+    "prebuild": "rm -rf dist",
+    "preinstall": "npx only-allow pnpm",
+    "prepack": "pnpm run depcheck && pnpm run lint && pnpm run test && pnpm run build",
+    "test": "jest",
     "update:majors": "npx npm-check-updates -i -t latest && pnpm run post:update",
-    "post:update": "rm -rfv node_modules && pnpm prune && pnpm i"
+    "update": "npx npm-check-updates -i -t minor && pnpm run post:update"
   },
   "keywords": [
     "maybe",
@@ -54,14 +55,10 @@
     "@eslint/compat": "1.3.1",
     "@eslint/eslintrc": "3.3.1",
     "@eslint/js": "9.31.0",
-    "@types/jest": "30.0.0",
-    "@types/node": "24.0.14",
     "@typescript-eslint/eslint-plugin": "8.37.0",
     "@typescript-eslint/parser": "8.37.0",
-    "babel-loader": "10.0.0",
+    "depcheck": "1.4.7",
     "eslint": "9.31.0",
-    "eslint-config-airbnb": "19.0.4",
-    "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-airbnb-typescript": "18.0.0",
     "eslint-config-prettier": "10.1.5",
     "eslint-plugin-import": "2.32.0",
