@@ -25,7 +25,8 @@ jobs:
   common-bump:
     needs: [build]
     uses: hansogj/package-test-utils/.github/workflows/shared-bump.yml@main
+    permissions:
+      contents: write
+      id-token: write # Often needed for other tasks, good practice to include
     with:
       version: ${{ github.event.inputs.version }}
-    secrets:
-      deployKey: ${{ secrets.DEPLOY_KEY }}
