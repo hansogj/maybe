@@ -26,6 +26,11 @@ jobs:
       - run: pnpm i --frozen-lockfile
 
 
+      - name: Debug npm authentication
+        run: |
+          npm whoami
+          npm config get registry
+
       - name: Publish to npm
         # No 'env' block with secrets is needed! 
         # The 'id-token: write' permission handles the auth.
