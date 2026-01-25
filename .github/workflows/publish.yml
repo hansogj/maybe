@@ -1,39 +1,23 @@
-name: publish to npmjs
+name: Publish Package
 
 on:
-  release:
-    types: [published]
-
-permissions:
-  contents: read
-  id-token: write 
+  push:
+    tags:
+      - 'v*' # This workflow runs when a version tag (e.g., v1.0.0) is pushed
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # Allows checking out the code
+      id-token: write # Required for OIDC authentication
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
-          node-version: '20' # Stick to LTS to avoid the 'engine' warning
-          registry-url: 'https://registry.npmjs.org'
-
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9
-
-      - run: pnpm i --frozen-lockfile
-
-      - name: Configure npm for Trusted Publishing
-        # This manually points the npm client to use the OIDC token exchange
-        run: |
-          npm config set //registry.npmjs.org/:token-exchange-url https://www.npmjs.com/-/oauth/token
-          # We set the auth token to an empty string so npm knows NOT to look 
-          # for a secret, but to use the environment's OIDC token instead.
-          npm config set //registry.npmjs.org/:_authToken "" 
-
-      - name: Publish to npm
-        # No 'env' block with secrets is needed! 
-        # The 'id-token: write' permission handles the auth.
-        run: pnpm publish --no-git-checks --access public --provenance
+          node-version: '20' # Use your desired Node.js version
+          registry-url: 'https://registry.npmjs.org' # Must be set for npmjs
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+      - run: npm publish --provenance # The --provenance flag is recommended for security
