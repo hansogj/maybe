@@ -25,8 +25,15 @@ jobs:
 
       - run: pnpm i --frozen-lockfile
 
-      # This step bridge the OIDC token to pnpm's environment
+      - name: Configure npm for Trusted Publishing
+        # This manually points the npm client to use the OIDC token exchange
+        run: |
+          npm config set //registry.npmjs.org/:token-exchange-url https://www.npmjs.com/-/oauth/token
+          # We set the auth token to an empty string so npm knows NOT to look 
+          # for a secret, but to use the environment's OIDC token instead.
+          npm config set //registry.npmjs.org/:_authToken "" 
+
       - name: Publish to npm
+        # No 'env' block with secrets is needed! 
+        # The 'id-token: write' permission handles the auth.
         run: pnpm publish --no-git-checks --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # When using OIDC/Trusted Publishing, this token is automatically swapped for an npm one
