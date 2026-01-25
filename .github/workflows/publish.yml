@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # Specify your Node.js version
+          node-version: '25' # Specify your Node.js version
           registry-url: 'https://registry.npmjs.org' # Important for npm registry
 
       - name: Install dependencies
