@@ -1,23 +1,47 @@
-name: Publish Package
+name: Publish Package to npm
 
 on:
   push:
     tags:
-      - 'v*' # This workflow runs when a version tag (e.g., v1.0.0) is pushed
+      - 'v*' # Triggers the workflow when a tag starting with 'v' is pushed
+
+permissions:
+  id-token: write # Required for OIDC authentication
+  contents: read # Allows checking out the code
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read # Allows checking out the code
-      id-token: write # Required for OIDC authentication
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: '20' # Use your desired Node.js version
-          registry-url: 'https://registry.npmjs.org' # Must be set for npmjs
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
-      - run: npm publish --provenance # The --provenance flag is recommended for security
+          version: 8 # Specify your pnpm version
+          run_install: false # Avoids running pnpm install here if you do it later
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Specify your Node.js version
+          registry-url: 'https://registry.npmjs.org' # Important for npm registry
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile # Use pnpm for installation
+
+      - name: Build package
+        run: pnpm run build --if-present
+
+      - name: Test
+        run: pnpm test --if-present
+
+      - name: Publish to npm
+        # No NPM_TOKEN secret needed due to OIDC and trusted publishing
+        run: pnpm publish --no-git-checks --access public # Use pnpm publish command
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # This line is a placeholder; OIDC handles auth.
+          # The setup-node action will create an .npmrc file referencing a token derived from OIDC
+          # You might optionally set NPM_CONFIG_PROVENANCE: true here if using hosted runners
