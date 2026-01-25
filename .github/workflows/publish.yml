@@ -2,20 +2,28 @@ name: publish to npmjs
 on:
   release:
     types: [published]
+
+permissions:
+  contents: read
+  id-token: write 
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Setup .npmrc file to publish to npm
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '25.x'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: '22' # Changed to LTS (Stable)
       - uses: pnpm/action-setup@v3
         with:
-          version: 9     
+          version: 9
+
       - run: pnpm i --frozen-lockfile
-      - run: pnpm publish -no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      # Optional: Explicitly run build if not handled by 'prepublishOnly' in package.json
+      # - run: pnpm build 
+
+      - run: pnpm publish --provenance --no-git-checks --access public
+ 
