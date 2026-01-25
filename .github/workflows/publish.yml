@@ -18,7 +18,6 @@ jobs:
         with:
           node-version: '20' # Stick to LTS to avoid the 'engine' warning
           registry-url: 'https://registry.npmjs.org'
-          auth-token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: pnpm/action-setup@v3
         with:
@@ -33,6 +32,6 @@ jobs:
           npm config get registry
 
       - name: Publish to npm
-        # No 'env' block with secrets is needed! 
-        # The 'id-token: write' permission handles the auth.
+        env:
+          NODE_AUTH_TOKEN: ${{ id_token.generate() }}
         run: npm publish --no-git-checks --access public
