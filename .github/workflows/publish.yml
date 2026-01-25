@@ -29,4 +29,4 @@ jobs:
       - name: Publish to npm
         # No 'env' block with secrets is needed! 
         # The 'id-token: write' permission handles the auth.
-        run: pnpm publish --no-git-checks --access public
+        run: npm publish --no-git-checks --access public
