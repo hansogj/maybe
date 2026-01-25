@@ -1,4 +1,5 @@
 name: publish to npmjs
+
 on:
   release:
     types: [published]
@@ -15,15 +16,17 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22' # Changed to LTS (Stable)
+          node-version: '20' # Stick to LTS to avoid the 'engine' warning
+          registry-url: 'https://registry.npmjs.org'
+
       - uses: pnpm/action-setup@v3
         with:
           version: 9
 
       - run: pnpm i --frozen-lockfile
-      
-      # Optional: Explicitly run build if not handled by 'prepublishOnly' in package.json
-      # - run: pnpm build 
 
-      - run: pnpm publish --provenance --no-git-checks --access public
- 
+      # This step bridge the OIDC token to pnpm's environment
+      - name: Publish to npm
+        run: pnpm publish --no-git-checks --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # When using OIDC/Trusted Publishing, this token is automatically swapped for an npm one
