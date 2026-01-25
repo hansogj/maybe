@@ -1,6 +1,6 @@
 {
   "name": "@hansogj/maybe",
-  "version": "2.5.7-4",
+  "version": "2.5.7-5",
   "description": "",
   "main": "dist/maybe.js",
   "types": "dist/maybe.d.ts",
