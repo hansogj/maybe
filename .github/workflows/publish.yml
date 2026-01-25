@@ -1,39 +1,47 @@
-name: publish to npmjs
+name: Publish Package to npm
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*' # Triggers the workflow when a tag starting with 'v' is pushed
 
 permissions:
-  contents: read
-  id-token: write 
+  id-token: write # Required for OIDC authentication
+  contents: read # Allows checking out the code
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
         with:
-          node-version: '20' # Stick to LTS to avoid the 'engine' warning
-          registry-url: 'https://registry.npmjs.org'
+          version: 10 # Specify your pnpm version
+          run_install: false # Avoids running pnpm install here if you do it later
 
-      - uses: pnpm/action-setup@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
         with:
-          version: 9
+          node-version: '25' # Specify your Node.js version
+          registry-url: 'https://registry.npmjs.org' # Important for npm registry
 
-      - run: pnpm i --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile # Use pnpm for installation
 
-      - name: Configure npm for Trusted Publishing
-        # This manually points the npm client to use the OIDC token exchange
-        run: |
-          npm config set //registry.npmjs.org/:token-exchange-url https://www.npmjs.com/-/oauth/token
-          # We set the auth token to an empty string so npm knows NOT to look 
-          # for a secret, but to use the environment's OIDC token instead.
-          npm config set //registry.npmjs.org/:_authToken "" 
+      - name: Build package
+        run: pnpm run build
+
+      - name: Test
+        run: pnpm test
 
       - name: Publish to npm
-        # No 'env' block with secrets is needed! 
-        # The 'id-token: write' permission handles the auth.
-        run: pnpm publish --no-git-checks --access public --provenance
+        # No NPM_TOKEN secret needed due to OIDC and trusted publishing
+        run: pnpm publish --no-git-checks --access public # Use pnpm publish command
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # This line is a placeholder; OIDC handles auth.
+          # The setup-node action will create an .npmrc file referencing a token derived from OIDC
+          # You might optionally set NPM_CONFIG_PROVENANCE: true here if using hosted runners
