@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> **Archived — code moved to [hansogj/utils-ws](https://github.com/hansogj/utils-ws).**
+>
+> The maybe package now lives in the `utils-ws` monorepo alongside the other `@hansogj/*` libraries, under [`packages/maybe`](https://github.com/hansogj/utils-ws/tree/main/packages/maybe). Migrated 2026-06-15 in [hansogj/utils-ws#35](https://github.com/hansogj/utils-ws/pull/35). No further updates will land here.
+
 [![example workflow](https://github.com/hansogj/maybe/actions/workflows/build.yml/badge.svg)](https://github.com/hansogj/maybe/actions/workflows/build.yml/badge.svg)
 
 # maybe
